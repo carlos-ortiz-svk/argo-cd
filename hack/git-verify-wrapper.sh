@@ -14,7 +14,7 @@ REVISION="$1"
 TYPE=
 
 # Figure out we have an annotated tag or a commit SHA
-if git describe --exact-match "${REVISION}" >/dev/null 2>&1; then
+if test "$(git cat-file -t ${REVISION})" = "tag"; then
 	IFS=''
 	TYPE=tag
 	OUTPUT=$(git verify-tag "$REVISION" 2>&1)
