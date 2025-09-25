@@ -16,12 +16,10 @@ TYPE=
 # Figure out if $REVISION is a tag
 if test "$(git cat-file -t ${REVISION})" = "tag"; then
 	IFS=''
-	TYPE=tag
 	OUTPUT=$(git verify-tag "$REVISION" 2>&1)
 	RET=$?
 else
 	IFS=''
-	TYPE=commit
 	OUTPUT=$(git verify-commit "$REVISION" 2>&1)
 	RET=$?
 fi
@@ -33,10 +31,7 @@ case "$RET" in
 1)
 	# git verify-tag emits error messages if no signature is found on tag,
 	# which we don't want in the output.
-	if test "$TYPE" = "tag" -a "${OUTPUT%%:*}" = "error"; then
-		OUTPUT=""
-	fi
-	echo "$OUTPUT"
+	echo "$OUTPUT" | grep --invert-match error
 	RET=0
 	;;
 *)
