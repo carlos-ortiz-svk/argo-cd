@@ -13,7 +13,7 @@ fi
 REVISION="$1"
 TYPE=
 
-# Figure out we have an annotated tag or a commit SHA
+# Figure out if $REVISION is a tag
 if test "$(git cat-file -t ${REVISION})" = "tag"; then
 	IFS=''
 	TYPE=tag
